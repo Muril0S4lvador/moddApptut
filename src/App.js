@@ -2,17 +2,18 @@ import './App.css';
 import {ethers} from 'ethers'
 import { useState } from 'react';
 import TokenArtifact from "./artifacts/contracts/Token.sol/Token.json"
-const tokenAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+const tokenAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
 
-
+const localBlockchainAddress = 'http://localhost:8545'
 
 function App() {
 
  const [tokenData, setTokenData] = useState({})
  const [amount, setAmount] = useState()
  const [userAccountId, setUserAccountId] = useState()
+ const [balanceH1, setBalance] = useState()
 
- const provider = new ethers.providers.Web3Provider(window.ethereum);
+ const provider = new ethers.providers.JsonRpcProvider(localBlockchainAddress) 
  const signer = provider.getSigner();
 
  async function _intializeContract(init) {
@@ -58,6 +59,7 @@ async function getBalance() {
     const [account] = await window.ethereum.request({ method: 'eth_requestAccounts' })
     const balance = await contract.balanceOf(account);
     console.log("Account Balance: ", balance.toString());
+    setBalance(balance.toString());
   }
 }
   return (
@@ -65,7 +67,8 @@ async function getBalance() {
       <header className="App-header">
       <button onClick={_getTokenData}>get token data</button>
       <h1>{tokenData.name}</h1>
-      <h1>{tokenData.symbol}</h1>  
+      <h1>{tokenData.symbol}</h1>
+      <h3>Balance: {balanceH1}</h3>  
       <button onClick={getBalance}>Get Balance</button>  
       <button onClick={sendMDToken}>Send MDToken</button>
       <input onChange={e => setUserAccountId(e.target.value)} placeholder="Account ID" />
