@@ -4,8 +4,8 @@ pragma solidity ^0.8.4;
 
 contract Token {
 
-    string public name = "Murilo Token";
-    string public symbol = "MSDT";
+    string public name = "Token";
+    string public symbol = "TKTK";
 
     // The fixed amount of tokens stored in an unsigned integer type variable.
     uint256 public totalSupply = 1000000;
